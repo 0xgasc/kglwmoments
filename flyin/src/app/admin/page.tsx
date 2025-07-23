@@ -1879,7 +1879,7 @@ export default function AdminDashboard() {
               </p>
               <p className="text-sm text-gray-600">
                 Passengers: {selectedBooking.passenger_count} | Base Price: ${selectedBooking.total_price - (selectedBooking.addon_total_price || 0)}
-                {selectedBooking.addon_total_price > 0 && (
+                {(selectedBooking.addon_total_price || 0) > 0 && (
                   <span> | Add-ons: ${selectedBooking.addon_total_price} | Total: ${selectedBooking.total_price}</span>
                 )}
               </p>
