@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { MapPin, Sparkles } from 'lucide-react'
+import { MapPin, Sparkles, Users, UserPlus } from 'lucide-react'
 import { useTranslation } from '@/lib/i18n'
 import { LanguageSwitcher } from '@/components/language-switcher'
 import { MobileNav } from '@/components/mobile-nav'
@@ -26,6 +26,14 @@ export default function HomePage() {
             </Link>
           </div>
         }
+        additionalMobileItems={[
+          {
+            href: '/pilot/join',
+            label: t('nav.pilot_opportunities'),
+            icon: <Users className="h-5 w-5" />,
+            show: true
+          }
+        ]}
       />
 
       <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-16">

@@ -51,7 +51,7 @@ export default function RegisterPage() {
             phone: formData.phone,
             role: formData.role,
             account_balance: 0,
-            kyc_verified: formData.role !== 'pilot'
+            kyc_verified: false
           })
 
         if (profileError) {

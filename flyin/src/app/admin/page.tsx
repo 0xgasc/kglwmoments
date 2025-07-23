@@ -72,6 +72,7 @@ export default function AdminDashboard() {
   const [transactions, setTransactions] = useState<any[]>([])
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [loading, setLoading] = useState(true)
+  const [currentWeekOffset, setCurrentWeekOffset] = useState(0) // 0 = current week, -1 = previous, +1 = next
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null)
   const [availablePilots, setAvailablePilots] = useState<Pilot[]>([])
   const [refreshing, setRefreshing] = useState(false)
@@ -838,6 +839,7 @@ export default function AdminDashboard() {
       case 'pending': return 'bg-yellow-100 text-yellow-800'
       case 'approved': return 'bg-blue-100 text-blue-800'
       case 'assigned': return 'bg-purple-100 text-purple-800'
+      case 'accepted': return 'bg-cyan-100 text-cyan-800'
       case 'needs_revision': return 'bg-orange-100 text-orange-800'
       case 'revision_pending': return 'bg-amber-100 text-amber-800'
       case 'completed': return 'bg-green-100 text-green-800'
@@ -1078,14 +1080,27 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-center mb-6">
               <h1 className="text-2xl font-bold text-gray-900">Flight Calendar & Aircraft Scheduling</h1>
               <div className="flex space-x-2">
-                <button className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700">
-                  🗓️ Today
+                <button 
+                  onClick={() => setCurrentWeekOffset(0)}
+                  className={`px-4 py-2 rounded-lg transition-colors ${
+                    currentWeekOffset === 0 
+                      ? 'bg-primary-600 text-white' 
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
+                >
+                  🗓️ This Week
                 </button>
-                <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
-                  ← Week
+                <button 
+                  onClick={() => setCurrentWeekOffset(currentWeekOffset - 1)}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                >
+                  ← Previous Week
                 </button>
-                <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
-                  Week →
+                <button 
+                  onClick={() => setCurrentWeekOffset(currentWeekOffset + 1)}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                >
+                  Next Week →
                 </button>
               </div>
             </div>
@@ -1128,7 +1143,17 @@ export default function AdminDashboard() {
             {/* Calendar Grid */}
             <div className="card-luxury">
               <div className="mb-4">
-                <h2 className="text-lg font-bold mb-2">Week View - {format(new Date(), 'MMM dd, yyyy')}</h2>
+                {(() => {
+                  const weekStartDate = new Date()
+                  weekStartDate.setDate(weekStartDate.getDate() + (currentWeekOffset * 7))
+                  const weekEndDate = new Date(weekStartDate)
+                  weekEndDate.setDate(weekEndDate.getDate() + 6)
+                  return (
+                    <h2 className="text-lg font-bold mb-2">
+                      Week View - {format(weekStartDate, 'MMM dd')} to {format(weekEndDate, 'MMM dd, yyyy')}
+                    </h2>
+                  )
+                })()}
                 <div className="flex space-x-4 text-sm">
                   <div className="flex items-center"><div className="w-3 h-3 bg-yellow-400 rounded mr-2"></div>Pending</div>
                   <div className="flex items-center"><div className="w-3 h-3 bg-blue-400 rounded mr-2"></div>Approved</div>
@@ -1140,12 +1165,16 @@ export default function AdminDashboard() {
               {/* Calendar Header */}
               <div className="grid grid-cols-8 gap-1 mb-2">
                 <div className="p-2 text-xs font-medium text-gray-600">Aircraft</div>
-                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => (
-                  <div key={day} className="p-2 text-xs font-medium text-gray-600 text-center border-l">
-                    {day}<br/>
-                    <span className="text-gray-400">{format(new Date(Date.now() + ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].indexOf(day) * 24 * 60 * 60 * 1000), 'dd')}</span>
-                  </div>
-                ))}
+                {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => {
+                  const dayDate = new Date()
+                  dayDate.setDate(dayDate.getDate() + (currentWeekOffset * 7) + index)
+                  return (
+                    <div key={day} className="p-2 text-xs font-medium text-gray-600 text-center border-l">
+                      {day}<br/>
+                      <span className="text-gray-400">{format(dayDate, 'dd')}</span>
+                    </div>
+                  )
+                })}
               </div>
               
               {/* Calendar Rows */}
@@ -1162,7 +1191,7 @@ export default function AdminDashboard() {
                     
                     {Array.from({ length: 7 }, (_, dayIndex) => {
                       const currentDate = new Date()
-                      currentDate.setDate(currentDate.getDate() + dayIndex)
+                      currentDate.setDate(currentDate.getDate() + (currentWeekOffset * 7) + dayIndex)
                       const dayBookings = bookings.filter(b => 
                         b.helicopter_id === helicopter.id && 
                         new Date(b.scheduled_date).toDateString() === currentDate.toDateString()

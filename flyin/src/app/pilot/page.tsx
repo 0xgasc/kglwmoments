@@ -36,7 +36,7 @@ export default function PilotDashboard() {
   const router = useRouter()
   const { profile } = useAuthStore()
   const [bookings, setBookings] = useState<Booking[]>([])
-  const [filter, setFilter] = useState<'assigned' | 'completed' | 'all'>('assigned')
+  const [filter, setFilter] = useState<'active' | 'completed' | 'all'>('active')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -65,7 +65,9 @@ export default function PilotDashboard() {
         .eq('pilot_id', profile?.id)
         .order('scheduled_date', { ascending: true })
 
-      if (filter !== 'all') {
+      if (filter === 'active') {
+        query = query.in('status', ['assigned', 'accepted'])
+      } else if (filter !== 'all') {
         query = query.eq('status', filter)
       }
 
@@ -171,6 +173,25 @@ export default function PilotDashboard() {
     }
   }
 
+  const acceptMission = async (bookingId: string) => {
+    try {
+      const { error } = await supabase
+        .from('bookings')
+        .update({ status: 'accepted' })
+        .eq('id', bookingId)
+
+      if (!error) {
+        fetchBookings()
+      }
+    } catch (err) {
+      console.error('Error accepting mission:', err)
+      // Update local state for demo
+      setBookings(prev => prev.map(b => 
+        b.id === bookingId ? { ...b, status: 'accepted' } : b
+      ))
+    }
+  }
+
   const markAsCompleted = async (bookingId: string) => {
     try {
       const { error } = await supabase
@@ -182,7 +203,7 @@ export default function PilotDashboard() {
         fetchBookings()
       }
     } catch (err) {
-      console.error('Error updating booking:', err)
+      console.error('Error completing mission:', err)
       // Update local state for demo
       setBookings(prev => prev.map(b => 
         b.id === bookingId ? { ...b, status: 'completed' } : b
@@ -193,7 +214,9 @@ export default function PilotDashboard() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'assigned':
-        return <AlertCircle className="h-5 w-5 text-yellow-600" />
+        return <AlertCircle className="h-5 w-5 text-blue-600" />
+      case 'accepted':
+        return <Clock className="h-5 w-5 text-yellow-600" />
       case 'completed':
         return <CheckCircle className="h-5 w-5 text-green-600" />
       default:
@@ -244,14 +267,14 @@ export default function PilotDashboard() {
           <h1 className="text-3xl font-bold text-gray-900">My Assignments</h1>
           <div className="flex space-x-2">
             <button
-              onClick={() => setFilter('assigned')}
+              onClick={() => setFilter('active')}
               className={`px-4 py-2 rounded-lg ${
-                filter === 'assigned' 
+                filter === 'active' 
                   ? 'bg-primary-600 text-white' 
                   : 'bg-white text-gray-700 border border-gray-300'
               }`}
             >
-              Active
+              Active Missions
             </button>
             <button
               onClick={() => setFilter('completed')}
@@ -365,8 +388,16 @@ export default function PilotDashboard() {
 
                 {booking.status === 'assigned' && (
                   <button
-                    onClick={() => markAsCompleted(booking.id)}
+                    onClick={() => acceptMission(booking.id)}
                     className="btn-primary text-sm"
+                  >
+                    Accept Mission
+                  </button>
+                )}
+                {booking.status === 'accepted' && (
+                  <button
+                    onClick={() => markAsCompleted(booking.id)}
+                    className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm"
                   >
                     Mark as Completed
                   </button>

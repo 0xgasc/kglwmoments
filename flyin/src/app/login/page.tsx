@@ -47,7 +47,7 @@ function LoginContent() {
                 email: data.user.email || '',
                 role: 'client',
                 account_balance: 0,
-                kyc_verified: true
+                kyc_verified: false
               })
 
             if (createError) {

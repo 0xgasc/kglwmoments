@@ -3,9 +3,10 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Plane, Menu, X, Home, User, Calendar, Settings, LogOut } from 'lucide-react'
+import { Plane, Menu, X, Home, User, Calendar, Settings, LogOut, Globe } from 'lucide-react'
 import { useAuthStore } from '@/lib/auth-store'
 import { supabase } from '@/lib/supabase'
+import { useI18n } from '@/lib/i18n'
 
 interface NavItem {
   href: string
@@ -18,15 +19,24 @@ interface MobileNavProps {
   title?: string
   showBackButton?: boolean
   customActions?: React.ReactNode
+  additionalMobileItems?: NavItem[]
 }
 
-export function MobileNav({ title = 'FlyInGuate', showBackButton = false, customActions }: MobileNavProps) {
+export function MobileNav({ title = 'FlyInGuate', showBackButton = false, customActions, additionalMobileItems = [] }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false)
   const { profile } = useAuthStore()
+  const { locale, setLocale } = useI18n()
   const router = useRouter()
 
-  const handleSignOut = async () => {
+  const handleSignOut = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    // Close menu immediately for better UX
+    setIsOpen(false)
+    
     try {
+      console.log('Signing out...')
       await supabase.auth.signOut()
       // Force page reload to ensure auth state is cleared
       window.location.href = '/'
@@ -35,7 +45,6 @@ export function MobileNav({ title = 'FlyInGuate', showBackButton = false, custom
       // Fallback: still redirect even if signOut fails
       window.location.href = '/'
     }
-    setIsOpen(false)
   }
 
   const navItems: NavItem[] = [
@@ -100,7 +109,10 @@ export function MobileNav({ title = 'FlyInGuate', showBackButton = false, custom
 
           {/* Right: Custom actions + menu button */}
           <div className="flex items-center space-x-2">
-            {customActions}
+            {/* Show custom actions only on desktop */}
+            <div className="hidden md:block">
+              {customActions}
+            </div>
             
             {/* Desktop navigation */}
             <div className="hidden md:flex items-center space-x-6">
@@ -136,9 +148,37 @@ export function MobileNav({ title = 'FlyInGuate', showBackButton = false, custom
 
         {/* Mobile menu overlay */}
         {isOpen && (
-          <div className="absolute top-full left-0 right-0 bg-luxury-black border-t border-gray-700 md:hidden z-50">
+          <div className="absolute top-full left-0 right-0 bg-luxury-black border-t border-gray-700 md:hidden z-50" onClick={(e) => e.stopPropagation()}>
             <div className="p-4 space-y-2">
+              {/* Language switcher */}
+              <button
+                onClick={() => {
+                  setLocale(locale === 'en' ? 'es' : 'en')
+                  setIsOpen(false)
+                }}
+                className="flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition-colors w-full text-left"
+              >
+                <Globe className="h-5 w-5" />
+                <span>Language: {locale === 'en' ? 'English' : 'Español'}</span>
+              </button>
+              
+              <div className="border-t border-gray-700 pt-2"></div>
+              
+              {/* Main navigation items for logged in users */}
               {navItems.filter(item => item.show).map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition-colors"
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </Link>
+              ))}
+              
+              {/* Additional mobile items (for public pages) */}
+              {additionalMobileItems.filter(item => item.show !== false).map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -160,6 +200,14 @@ export function MobileNav({ title = 'FlyInGuate', showBackButton = false, custom
                     <User className="h-5 w-5" />
                     <span>Sign In</span>
                   </Link>
+                  <Link
+                    href="/register"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center space-x-3 p-3 hover:bg-primary-600 rounded-lg transition-colors"
+                  >
+                    <User className="h-5 w-5" />
+                    <span>Register</span>
+                  </Link>
                 </div>
               ) : (
                 <div className="pt-2 border-t border-gray-700">
@@ -169,6 +217,7 @@ export function MobileNav({ title = 'FlyInGuate', showBackButton = false, custom
                   <button
                     onClick={handleSignOut}
                     className="flex items-center space-x-3 p-3 hover:bg-red-600 rounded-lg transition-colors w-full text-left text-red-400 hover:text-white"
+                    type="button"
                   >
                     <LogOut className="h-5 w-5" />
                     <span>Sign Out</span>
@@ -184,7 +233,10 @@ export function MobileNav({ title = 'FlyInGuate', showBackButton = false, custom
       {isOpen && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-          onClick={() => setIsOpen(false)}
+          onClick={(e) => {
+            e.stopPropagation()
+            setIsOpen(false)
+          }}
         />
       )}
     </>
