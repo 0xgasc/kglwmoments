@@ -543,9 +543,9 @@ export default function AdminDashboard() {
       }
 
       const updates: any = { 
-        status
-        // Note: processed_at and admin_notes columns need to be added to the database
-        // Run the fix-transactions-columns.sql script to add these columns
+        status,
+        processed_at: new Date().toISOString(),
+        admin_notes: notes || null
       }
 
       // Update transaction status first
