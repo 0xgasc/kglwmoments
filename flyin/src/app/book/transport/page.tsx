@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/lib/auth-store'
 import { MapPin, Calendar, Users, DollarSign, Navigation } from 'lucide-react'
 import { MobileNav } from '@/components/mobile-nav'
+import { useTranslation } from '@/lib/i18n'
 import { format } from 'date-fns'
 // Helicopter selection moved to admin assignment workflow
 import { getDistanceBetweenLocations, calculateTransportPrice, LOCATION_COORDINATES } from '@/lib/distance-calculator'
@@ -21,6 +22,7 @@ interface Airport {
 export default function BookTransportPage() {
   const router = useRouter()
   const { profile } = useAuthStore()
+  const { t } = useTranslation()
   const [airports, setAirports] = useState<Airport[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -193,7 +195,7 @@ export default function BookTransportPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <MobileNav 
-        title="Book Transport"
+        title={t('services.transport.cta')}
         showBackButton={true}
         customActions={
           profile && (
@@ -205,7 +207,7 @@ export default function BookTransportPage() {
       />
 
       <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-3xl">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Book Direct Transport</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">{t('booking.title.transport')}</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
@@ -223,7 +225,7 @@ export default function BookTransportPage() {
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  From
+                  {t('booking.form.from')}
                 </label>
                 <select
                   value={formData.fromLocation}
@@ -247,7 +249,7 @@ export default function BookTransportPage() {
                     <option value="MONTERRICO">Monterrico Beach</option>
                     <option value="LIVINGSTON">Livingston</option>
                   </optgroup>
-                  <option value="custom">🗺️ Custom Location</option>
+                  <option value="custom">🗺️ {t('booking.form.custom_location')}</option>
                 </select>
                 {formData.fromLocation === 'custom' && (
                   <input
@@ -263,7 +265,7 @@ export default function BookTransportPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  To
+                  {t('booking.form.to')}
                 </label>
                 <select
                   value={formData.toLocation}
@@ -287,7 +289,7 @@ export default function BookTransportPage() {
                     <option value="MONTERRICO">Monterrico Beach</option>
                     <option value="LIVINGSTON">Livingston</option>
                   </optgroup>
-                  <option value="custom">🗺️ Custom Location</option>
+                  <option value="custom">🗺️ {t('booking.form.custom_location')}</option>
                 </select>
                 {formData.toLocation === 'custom' && (
                   <input
@@ -322,7 +324,7 @@ export default function BookTransportPage() {
                     onChange={() => setFormData({ ...formData, isRoundTrip: false, returnDate: '', returnTime: '' })}
                     className="mr-2"
                   />
-                  <span className="text-sm">One Way</span>
+                  <span className="text-sm">{t('booking.form.one_way')}</span>
                 </label>
                 <label className="flex items-center">
                   <input
@@ -332,7 +334,7 @@ export default function BookTransportPage() {
                     onChange={() => setFormData({ ...formData, isRoundTrip: true })}
                     className="mr-2"
                   />
-                  <span className="text-sm">Round Trip</span>
+                  <span className="text-sm">{t('booking.form.round_trip')}</span>
                 </label>
               </div>
             </div>
@@ -345,7 +347,7 @@ export default function BookTransportPage() {
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Departure Date
+                    {t('booking.form.departure_date')}
                   </label>
                   <input
                     type="date"
@@ -379,7 +381,7 @@ export default function BookTransportPage() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Return Date
+                      {t('booking.form.return_date')}
                     </label>
                     <input
                       type="date"
@@ -398,7 +400,7 @@ export default function BookTransportPage() {
                           onClick={() => setFormData({ ...formData, returnDate: formData.date })}
                           className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded hover:bg-blue-200"
                         >
-                          Same Day
+                          {t('booking.form.same_day')}
                         </button>
                         <button
                           type="button"
@@ -409,7 +411,7 @@ export default function BookTransportPage() {
                           }}
                           className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded hover:bg-gray-200"
                         >
-                          Next Day
+                          {t('booking.form.next_day')}
                         </button>
                       </div>
                     )}
@@ -444,12 +446,12 @@ export default function BookTransportPage() {
           <div className="card-luxury space-y-6">
             <h2 className="text-xl font-semibold flex items-center">
               <Users className="h-5 w-5 mr-2 text-primary-600" />
-              Passengers
+              {t('booking.form.passengers')}
             </h2>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Number of Passengers
+                {t('booking.form.num_passengers')}
               </label>
               <select
                 value={formData.passengers}
@@ -458,7 +460,7 @@ export default function BookTransportPage() {
               >
                 {[1, 2, 3, 4, 5, 6].map((num) => (
                   <option key={num} value={num}>
-                    {num} {num === 1 ? 'Passenger' : 'Passengers'}
+                    {num} {num === 1 ? t('booking.form.passenger') : t('booking.form.passengers')}
                   </option>
                 ))}
               </select>
@@ -513,12 +515,12 @@ export default function BookTransportPage() {
                 )}
                 {priceBredown.passengerFee > 0 && (
                   <div className="flex justify-between">
-                    <span>Additional Passengers:</span>
+                    <span>{t('pricing.additional_passengers')}:</span>
                     <span>+${priceBredown.passengerFee}</span>
                   </div>
                 )}
                 <div className="border-t border-primary-300 pt-2 flex justify-between font-semibold">
-                  <span>Total {priceBredown.isRoundTrip ? 'Round Trip' : ''} Price:</span>
+                  <span>{t('pricing.total')} {priceBredown.isRoundTrip ? t('booking.form.round_trip') : ''} {t('pricing.base_price')}:</span>
                   <span>${priceBredown.totalPrice}</span>
                 </div>
               </div>
@@ -549,7 +551,7 @@ export default function BookTransportPage() {
               disabled={loading}
               className="w-full sm:flex-1 btn-luxury disabled:opacity-50 py-4 sm:py-3 text-base font-medium"
             >
-              {loading ? 'Booking...' : 'Book Flight'}
+              {loading ? t('booking.form.booking') : t('booking.form.book_flight')}
             </button>
           </div>
         </form>

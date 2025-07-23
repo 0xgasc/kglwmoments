@@ -66,11 +66,18 @@ export const t = (key: string, locale: 'en' | 'es' = 'en'): string => {
     'how_it_works.step3.description': { en: 'Enjoy your premium helicopter experience', es: 'Disfruta tu experiencia premium en helicóptero' },
 
     // Booking forms
+    'booking.title.transport': { en: 'Book Direct Transport', es: 'Reservar Transporte Directo' },
     'booking.form.from': { en: 'From', es: 'Desde' },
     'booking.form.to': { en: 'To', es: 'Hacia' },
     'booking.form.date': { en: 'Date', es: 'Fecha' },
+    'booking.form.departure_date': { en: 'Departure Date', es: 'Fecha de Salida' },
+    'booking.form.return_date': { en: 'Return Date', es: 'Fecha de Regreso' },
     'booking.form.time': { en: 'Preferred Time', es: 'Hora Preferida' },
+    'booking.form.departure_time': { en: 'Departure Time', es: 'Hora de Salida' },
+    'booking.form.return_time': { en: 'Return Time', es: 'Hora de Regreso' },
     'booking.form.passengers': { en: 'Passengers', es: 'Pasajeros' },
+    'booking.form.num_passengers': { en: 'Number of Passengers', es: 'Número de Pasajeros' },
+    'booking.form.passenger': { en: 'Passenger', es: 'Pasajero' },
     'booking.form.notes': { en: 'Special Requests (Optional)', es: 'Solicitudes Especiales (Opcional)' },
     'booking.form.aircraft': { en: 'Helicopter Selection', es: 'Selección de Helicóptero' },
     'booking.form.price_breakdown': { en: 'Price Breakdown', es: 'Desglose de Precio' },
@@ -78,6 +85,13 @@ export const t = (key: string, locale: 'en' | 'es' = 'en'): string => {
     'booking.form.schedule': { en: 'Schedule', es: 'Horario' },
     'booking.form.cancel': { en: 'Cancel', es: 'Cancelar' },
     'booking.form.book_flight': { en: 'Book Flight', es: 'Reservar Vuelo' },
+    'booking.form.one_way': { en: 'One Way', es: 'Solo Ida' },
+    'booking.form.round_trip': { en: 'Round Trip', es: 'Ida y Vuelta' },
+    'booking.form.same_day': { en: 'Same Day', es: 'Mismo Día' },
+    'booking.form.next_day': { en: 'Next Day', es: 'Día Siguiente' },
+    'booking.form.custom_location': { en: 'Custom Location', es: 'Ubicación Personalizada' },
+    'booking.form.enter_custom': { en: 'Enter custom location...', es: 'Ingresa ubicación personalizada...' },
+    'booking.form.booking': { en: 'Booking...', es: 'Reservando...' },
 
     // Pricing
     'pricing.distance': { en: 'Distance', es: 'Distancia' },
