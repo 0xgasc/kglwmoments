@@ -96,6 +96,9 @@ export const t = (key: string, locale: 'en' | 'es' = 'en'): string => {
     'booking.form.each_way': { en: '(each way)', es: '(cada trayecto)' },
     'booking.form.one_way_price': { en: 'Base Price (One Way):', es: 'Precio Base (Solo Ida):' },
     'booking.form.estimated_price': { en: 'Estimated Base Price:', es: 'Precio Base Estimado:' },
+    'booking.form.flight_details': { en: 'Flight Details', es: 'Detalles del Vuelo' },
+    'booking.form.departure': { en: 'Departure', es: 'Salida' },
+    'booking.form.special_requirements': { en: 'Any special requirements or preferences...', es: 'Cualquier requisito especial o preferencia...' },
 
     // Pricing
     'pricing.distance': { en: 'Distance', es: 'Distancia' },

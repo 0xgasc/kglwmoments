@@ -309,7 +309,7 @@ export default function BookTransportPage() {
           <div className="card-luxury space-y-6">
             <h2 className="text-xl font-semibold flex items-center">
               <Calendar className="h-5 w-5 mr-2 text-primary-600" />
-              Schedule
+              {t('booking.form.schedule')}
             </h2>
 
             {/* Trip Type Toggle */}
@@ -342,7 +342,7 @@ export default function BookTransportPage() {
             {/* Departure */}
             <div>
               <h3 className="text-lg font-medium mb-3 text-gray-800">
-                {formData.isRoundTrip ? 'Departure' : 'Flight Details'}
+                {formData.isRoundTrip ? t('booking.form.departure') : t('booking.form.flight_details')}
               </h3>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
@@ -468,14 +468,14 @@ export default function BookTransportPage() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Special Requests (Optional)
+                {t('booking.form.notes')}
               </label>
               <textarea
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 rows={3}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-                placeholder="Any special requirements or preferences..."
+                placeholder={t('booking.form.special_requirements')}
               />
             </div>
           </div>
