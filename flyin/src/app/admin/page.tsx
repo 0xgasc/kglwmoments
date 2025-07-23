@@ -421,6 +421,8 @@ export default function AdminDashboard() {
         .select('*')
         .order('name')
 
+      console.log('Fetching helicopters - data:', data, 'error:', error)
+      
       if (data) {
         setHelicopters(data)
       }
@@ -511,7 +513,7 @@ export default function AdminDashboard() {
       // Success - update local state immediately
       setBookings(prev => prev.map(booking => 
         booking.id === bookingId 
-          ? { ...booking, status, pilot_id: pilotId, helicopter_id: helicopterId }
+          ? { ...booking, status, pilot_id: pilotId || null, helicopter_id: helicopterId || null }
           : booking
       ))
       
