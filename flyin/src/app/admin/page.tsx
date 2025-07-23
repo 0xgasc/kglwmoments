@@ -2812,6 +2812,290 @@ export default function AdminDashboard() {
           </div>
         </div>
       )}
+
+      {/* Edit Helicopter Modal */}
+      {showEditHelicopterModal && selectedHelicopterForEdit && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <h3 className="text-xl font-bold mb-6">Edit Helicopter</h3>
+            
+            <form onSubmit={async (e) => {
+              e.preventDefault()
+              try {
+                const { error } = await supabase
+                  .from('helicopters')
+                  .update({
+                    name: selectedHelicopterForEdit.name,
+                    model: selectedHelicopterForEdit.model,
+                    manufacturer: selectedHelicopterForEdit.manufacturer,
+                    year_manufactured: selectedHelicopterForEdit.year_manufactured,
+                    registration_number: selectedHelicopterForEdit.registration_number,
+                    capacity: selectedHelicopterForEdit.capacity,
+                    hourly_rate: selectedHelicopterForEdit.hourly_rate,
+                    max_range_km: selectedHelicopterForEdit.max_range_km,
+                    cruise_speed_kmh: selectedHelicopterForEdit.cruise_speed_kmh,
+                    fuel_capacity_liters: selectedHelicopterForEdit.fuel_capacity_liters,
+                    fuel_consumption_lph: selectedHelicopterForEdit.fuel_consumption_lph,
+                    status: selectedHelicopterForEdit.status,
+                    location: selectedHelicopterForEdit.location,
+                    notes: selectedHelicopterForEdit.notes,
+                    total_flight_hours: selectedHelicopterForEdit.total_flight_hours,
+                    last_maintenance_date: selectedHelicopterForEdit.last_maintenance_date,
+                    next_maintenance_due: selectedHelicopterForEdit.next_maintenance_due,
+                    insurance_expiry: selectedHelicopterForEdit.insurance_expiry,
+                    certification_expiry: selectedHelicopterForEdit.certification_expiry
+                  })
+                  .eq('id', selectedHelicopterForEdit.id)
+
+                if (error) throw error
+                
+                setShowEditHelicopterModal(false)
+                fetchHelicopters()
+                alert('Helicopter updated successfully!')
+              } catch (error: any) {
+                alert('Error updating helicopter: ' + error.message)
+              }
+            }} className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <input
+                    type="text"
+                    value={selectedHelicopterForEdit.name}
+                    onChange={(e) => setSelectedHelicopterForEdit({ ...selectedHelicopterForEdit, name: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Model</label>
+                  <input
+                    type="text"
+                    value={selectedHelicopterForEdit.model}
+                    onChange={(e) => setSelectedHelicopterForEdit({ ...selectedHelicopterForEdit, model: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                  <select
+                    value={selectedHelicopterForEdit.status}
+                    onChange={(e) => setSelectedHelicopterForEdit({ ...selectedHelicopterForEdit, status: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  >
+                    <option value="active">Active</option>
+                    <option value="maintenance">Maintenance</option>
+                    <option value="inspection">Inspection</option>
+                    <option value="retired">Retired</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Hourly Rate ($)</label>
+                  <input
+                    type="number"
+                    value={selectedHelicopterForEdit.hourly_rate}
+                    onChange={(e) => setSelectedHelicopterForEdit({ ...selectedHelicopterForEdit, hourly_rate: parseFloat(e.target.value) })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Total Flight Hours</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={selectedHelicopterForEdit.total_flight_hours || 0}
+                    onChange={(e) => setSelectedHelicopterForEdit({ ...selectedHelicopterForEdit, total_flight_hours: parseFloat(e.target.value) })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                  <input
+                    type="text"
+                    value={selectedHelicopterForEdit.location}
+                    onChange={(e) => setSelectedHelicopterForEdit({ ...selectedHelicopterForEdit, location: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Next Maintenance Due</label>
+                  <input
+                    type="date"
+                    value={selectedHelicopterForEdit.next_maintenance_due || ''}
+                    onChange={(e) => setSelectedHelicopterForEdit({ ...selectedHelicopterForEdit, next_maintenance_due: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Insurance Expiry</label>
+                  <input
+                    type="date"
+                    value={selectedHelicopterForEdit.insurance_expiry || ''}
+                    onChange={(e) => setSelectedHelicopterForEdit({ ...selectedHelicopterForEdit, insurance_expiry: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                <textarea
+                  value={selectedHelicopterForEdit.notes || ''}
+                  onChange={(e) => setSelectedHelicopterForEdit({ ...selectedHelicopterForEdit, notes: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  rows={3}
+                />
+              </div>
+
+              <div className="flex gap-4 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowEditHelicopterModal(false)}
+                  className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg"
+                >
+                  Update Helicopter
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Maintenance Modal */}
+      {showMaintenanceModal && selectedHelicopterForEdit && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg p-6 max-w-lg w-full">
+            <h3 className="text-xl font-bold mb-6">Schedule Maintenance</h3>
+            
+            <form onSubmit={async (e) => {
+              e.preventDefault()
+              const formData = new FormData(e.currentTarget)
+              
+              try {
+                const { error } = await supabase
+                  .from('maintenance_records')
+                  .insert({
+                    helicopter_id: selectedHelicopterForEdit.id,
+                    maintenance_type: formData.get('maintenance_type'),
+                    description: formData.get('description'),
+                    start_date: formData.get('start_date'),
+                    status: 'scheduled',
+                    performed_by: formData.get('performed_by'),
+                    cost: formData.get('cost') ? parseFloat(formData.get('cost') as string) : null,
+                    notes: formData.get('notes')
+                  })
+
+                if (error) throw error
+                
+                // Update helicopter status if going into maintenance
+                if (formData.get('maintenance_type') !== 'inspection') {
+                  await supabase
+                    .from('helicopters')
+                    .update({ status: 'maintenance' })
+                    .eq('id', selectedHelicopterForEdit.id)
+                }
+                
+                setShowMaintenanceModal(false)
+                fetchHelicopters()
+                fetchMaintenanceRecords()
+                alert('Maintenance scheduled successfully!')
+              } catch (error: any) {
+                alert('Error scheduling maintenance: ' + error.message)
+              }
+            }} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Maintenance Type</label>
+                <select
+                  name="maintenance_type"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  required
+                >
+                  <option value="scheduled">Scheduled Maintenance</option>
+                  <option value="unscheduled">Unscheduled Repair</option>
+                  <option value="inspection">Inspection</option>
+                  <option value="upgrade">Upgrade</option>
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <textarea
+                  name="description"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  rows={3}
+                  required
+                  placeholder="Describe the maintenance work..."
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                <input
+                  type="date"
+                  name="start_date"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  required
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Performed By</label>
+                <input
+                  type="text"
+                  name="performed_by"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="Technician or company name"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Estimated Cost ($)</label>
+                <input
+                  type="number"
+                  name="cost"
+                  step="0.01"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  placeholder="0.00"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                <textarea
+                  name="notes"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  rows={2}
+                  placeholder="Additional notes..."
+                />
+              </div>
+
+              <div className="flex gap-4 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowMaintenanceModal(false)}
+                  className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg"
+                >
+                  Schedule Maintenance
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
