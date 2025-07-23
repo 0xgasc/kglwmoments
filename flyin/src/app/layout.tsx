@@ -10,6 +10,12 @@ export const metadata: Metadata = {
   description: 'Experience Guatemala from above with our premium helicopter transport and tour services',
 }
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+}
+
 export default function RootLayout({
   children,
 }: {

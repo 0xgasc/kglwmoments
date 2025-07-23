@@ -1,51 +1,48 @@
 'use client'
 
 import Link from 'next/link'
-import { Plane, MapPin, Sparkles } from 'lucide-react'
+import { MapPin, Sparkles } from 'lucide-react'
 import { useTranslation } from '@/lib/i18n'
 import { LanguageSwitcher } from '@/components/language-switcher'
+import { MobileNav } from '@/components/mobile-nav'
 
 export default function HomePage() {
   const { t } = useTranslation()
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      <nav className="bg-luxury-black text-white p-6">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <Plane className="h-8 w-8 text-luxury-gold" />
-            <span className="text-2xl font-bold">FlyInGuate</span>
-          </div>
-          <div className="flex items-center space-x-6">
+      <MobileNav 
+        customActions={
+          <div className="hidden md:flex items-center space-x-6">
             <LanguageSwitcher />
-            <Link href="/pilot/join" className="hover:text-luxury-gold transition-colors">
+            <Link href="/pilot/join" className="hover:text-luxury-gold transition-colors text-sm">
               {t('nav.pilot_opportunities')}
             </Link>
-            <Link href="/login" className="hover:text-luxury-gold transition-colors">
+            <Link href="/login" className="hover:text-luxury-gold transition-colors text-sm">
               {t('nav.login')}
             </Link>
             <Link href="/register" className="btn-luxury text-sm">
               {t('nav.register')}
             </Link>
           </div>
-        </div>
-      </nav>
+        }
+      />
 
-      <main className="container mx-auto px-6 py-16">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+      <main className="container mx-auto px-4 sm:px-6 py-8 sm:py-16">
+        <div className="text-center mb-12 sm:mb-16">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 px-2">
             {t('hero.title')}
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-2">
             {t('hero.subtitle')}
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid gap-6 sm:gap-8 md:grid-cols-2 max-w-4xl mx-auto">
           <div className="card-luxury hover:border-primary-200">
             <div className="flex items-center mb-4">
-              <MapPin className="h-12 w-12 text-primary-600 mr-4" />
-              <h2 className="text-2xl font-bold">{t('services.transport.title')}</h2>
+              <MapPin className="h-10 w-10 sm:h-12 sm:w-12 text-primary-600 mr-3 sm:mr-4 flex-shrink-0" />
+              <h2 className="text-xl sm:text-2xl font-bold">{t('services.transport.title')}</h2>
             </div>
             <p className="text-gray-600 mb-6">
               {t('services.transport.description')}
@@ -57,8 +54,8 @@ export default function HomePage() {
 
           <div className="card-luxury hover:border-luxury-gold">
             <div className="flex items-center mb-4">
-              <Sparkles className="h-12 w-12 text-luxury-gold mr-4" />
-              <h2 className="text-2xl font-bold">{t('services.experiences.title')}</h2>
+              <Sparkles className="h-10 w-10 sm:h-12 sm:w-12 text-luxury-gold mr-3 sm:mr-4 flex-shrink-0" />
+              <h2 className="text-xl sm:text-2xl font-bold">{t('services.experiences.title')}</h2>
             </div>
             <p className="text-gray-600 mb-6">
               {t('services.experiences.description')}

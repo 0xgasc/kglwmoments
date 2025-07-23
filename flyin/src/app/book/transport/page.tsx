@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/lib/auth-store'
-import { MapPin, Calendar, Users, DollarSign, Plane, Navigation } from 'lucide-react'
+import { MapPin, Calendar, Users, DollarSign, Navigation } from 'lucide-react'
+import { MobileNav } from '@/components/mobile-nav'
 import { format } from 'date-fns'
 // Helicopter selection moved to admin assignment workflow
 import { getDistanceBetweenLocations, calculateTransportPrice, LOCATION_COORDINATES } from '@/lib/distance-calculator'
@@ -191,20 +192,20 @@ export default function BookTransportPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <nav className="bg-luxury-black text-white p-6">
-        <div className="container mx-auto flex justify-between items-center">
-          <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-            <Plane className="h-8 w-8 text-luxury-gold" />
-            <span className="text-2xl font-bold">FlyInGuate</span>
-          </Link>
-          <div className="text-sm">
-            Welcome, {profile?.full_name || profile?.email}
-          </div>
-        </div>
-      </nav>
+      <MobileNav 
+        title="Book Transport"
+        showBackButton={true}
+        customActions={
+          profile && (
+            <div className="text-xs sm:text-sm text-gray-300 hidden sm:block">
+              Welcome, {profile?.full_name || profile?.email}
+            </div>
+          )
+        }
+      />
 
-      <div className="container mx-auto px-6 py-8 max-w-3xl">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Book Direct Transport</h1>
+      <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8 max-w-3xl">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6 sm:mb-8">Book Direct Transport</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
@@ -535,18 +536,18 @@ export default function BookTransportPage() {
             </div>
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <button
               type="button"
               onClick={() => router.back()}
-              className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+              className="w-full sm:flex-1 px-6 py-4 sm:py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium text-base"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 btn-luxury disabled:opacity-50"
+              className="w-full sm:flex-1 btn-luxury disabled:opacity-50 py-4 sm:py-3 text-base font-medium"
             >
               {loading ? 'Booking...' : 'Book Flight'}
             </button>
