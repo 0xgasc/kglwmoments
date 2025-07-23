@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
@@ -31,7 +31,7 @@ interface SelectedAddon {
   unit_price: number
 }
 
-export default function PassengerDetailsPage() {
+function PassengerDetailsContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { profile } = useAuthStore()
@@ -428,5 +428,17 @@ export default function PassengerDetailsPage() {
         </form>
       </div>
     </div>
+  )
+}
+
+export default function PassengerDetailsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin h-12 w-12 border-4 border-primary-600 border-t-transparent rounded-full"></div>
+      </div>
+    }>
+      <PassengerDetailsContent />
+    </Suspense>
   )
 }
