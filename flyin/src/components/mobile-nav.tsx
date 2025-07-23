@@ -157,7 +157,7 @@ export function MobileNav({ title = 'FlyInGuate', showBackButton = false, custom
 
         {/* Mobile menu overlay */}
         {isOpen && (
-          <div className="absolute top-full left-0 right-0 bg-luxury-black border-t border-gray-700 md:hidden z-50" onClick={(e) => e.stopPropagation()}>
+          <div className="absolute top-full left-0 right-0 bg-luxury-black border-t border-gray-700 md:hidden z-[60]">
             <div className="p-4 space-y-2">
               {/* Language switcher */}
               <button
@@ -224,32 +224,50 @@ export function MobileNav({ title = 'FlyInGuate', showBackButton = false, custom
                     <div className="p-3 text-sm text-gray-400">
                       {profile.full_name || profile.email}
                     </div>
-                    <button
-                      onClick={(e) => {
-                        console.log('Sign out button clicked')
+                    <div 
+                      onTouchStart={(e) => {
+                        console.log('Touch start on sign out')
+                        e.currentTarget.style.backgroundColor = '#dc2626'
+                      }}
+                      onTouchEnd={(e) => {
+                        console.log('Touch end on sign out')
+                        e.currentTarget.style.backgroundColor = ''
                         e.preventDefault()
                         e.stopPropagation()
-                        handleSignOut(e)
+                        handleSignOut()
                       }}
-                      className="flex items-center space-x-3 p-3 hover:bg-red-600 rounded-lg transition-colors w-full text-left text-red-400 hover:text-white border border-red-500"
-                      type="button"
-                      style={{ touchAction: 'manipulation', minHeight: '44px' }}
+                      onClick={(e) => {
+                        console.log('Click on sign out')
+                        e.preventDefault()
+                        e.stopPropagation()
+                        handleSignOut()
+                      }}
+                      className="flex items-center space-x-3 p-4 hover:bg-red-600 rounded-lg transition-colors w-full text-left text-red-400 hover:text-white border-2 border-red-500 cursor-pointer select-none"
+                      style={{ 
+                        touchAction: 'manipulation', 
+                        minHeight: '48px',
+                        WebkitTapHighlightColor: 'transparent'
+                      }}
                     >
-                      <LogOut className="h-5 w-5" />
-                      <span>Sign Out</span>
-                    </button>
+                      <LogOut className="h-5 w-5 pointer-events-none" />
+                      <span className="pointer-events-none">Sign Out</span>
+                    </div>
                     
-                    {/* Debug fallback button */}
+                    {/* Alternative simple button */}
                     <button
-                      onClick={() => {
-                        console.log('Debug sign out clicked')
-                        window.location.href = '/'
+                      onTouchStart={() => {
+                        console.log('Alternative button touch start')
+                        setTimeout(() => {
+                          console.log('Executing sign out after delay')
+                          window.location.href = '/'
+                        }, 100)
                       }}
-                      className="flex items-center space-x-3 p-3 bg-yellow-600 hover:bg-yellow-700 rounded-lg transition-colors w-full text-left text-white mt-2"
+                      className="flex items-center space-x-3 p-4 bg-green-600 hover:bg-green-700 rounded-lg transition-colors w-full text-left text-white mt-2 border-2 border-green-400"
                       type="button"
+                      style={{ minHeight: '48px', touchAction: 'manipulation' }}
                     >
                       <LogOut className="h-5 w-5" />
-                      <span>Debug Sign Out</span>
+                      <span>Quick Sign Out</span>
                     </button>
                   </>
                 )}
@@ -262,11 +280,8 @@ export function MobileNav({ title = 'FlyInGuate', showBackButton = false, custom
       {/* Backdrop to close menu when clicking outside */}
       {isOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-          onClick={(e) => {
-            e.stopPropagation()
-            setIsOpen(false)
-          }}
+          className="fixed inset-0 bg-black bg-opacity-50 z-[50] md:hidden"
+          onClick={() => setIsOpen(false)}
         />
       )}
     </>
