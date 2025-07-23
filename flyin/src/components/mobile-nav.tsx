@@ -28,23 +28,32 @@ export function MobileNav({ title = 'FlyInGuate', showBackButton = false, custom
   const { locale, setLocale } = useI18n()
   const router = useRouter()
 
-  const handleSignOut = async (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+  const handleSignOut = async (e?: React.MouseEvent) => {
+    console.log('handleSignOut called')
+    
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
     
     // Close menu immediately for better UX
     setIsOpen(false)
     
     try {
-      console.log('Signing out...')
-      await supabase.auth.signOut()
-      // Force page reload to ensure auth state is cleared
-      window.location.href = '/'
+      console.log('Calling supabase.auth.signOut()')
+      const { error } = await supabase.auth.signOut()
+      if (error) {
+        console.error('Supabase signOut error:', error)
+      } else {
+        console.log('Successfully signed out')
+      }
     } catch (error) {
       console.error('Sign out error:', error)
-      // Fallback: still redirect even if signOut fails
-      window.location.href = '/'
     }
+    
+    // Always redirect regardless of success/failure
+    console.log('Redirecting to home page')
+    window.location.href = '/'
   }
 
   const navItems: NavItem[] = [
@@ -190,40 +199,61 @@ export function MobileNav({ title = 'FlyInGuate', showBackButton = false, custom
                 </Link>
               ))}
               
-              {!profile ? (
-                <div className="pt-2 border-t border-gray-700">
-                  <Link
-                    href="/login"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition-colors"
-                  >
-                    <User className="h-5 w-5" />
-                    <span>Sign In</span>
-                  </Link>
-                  <Link
-                    href="/register"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center space-x-3 p-3 hover:bg-primary-600 rounded-lg transition-colors"
-                  >
-                    <User className="h-5 w-5" />
-                    <span>Register</span>
-                  </Link>
-                </div>
-              ) : (
-                <div className="pt-2 border-t border-gray-700">
-                  <div className="p-3 text-sm text-gray-400">
-                    {profile.full_name || profile.email}
-                  </div>
-                  <button
-                    onClick={handleSignOut}
-                    className="flex items-center space-x-3 p-3 hover:bg-red-600 rounded-lg transition-colors w-full text-left text-red-400 hover:text-white"
-                    type="button"
-                  >
-                    <LogOut className="h-5 w-5" />
-                    <span>Sign Out</span>
-                  </button>
-                </div>
-              )}
+              <div className="pt-2 border-t border-gray-700">
+                {!profile ? (
+                  <>
+                    <Link
+                      href="/login"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition-colors"
+                    >
+                      <User className="h-5 w-5" />
+                      <span>Sign In</span>
+                    </Link>
+                    <Link
+                      href="/register"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center space-x-3 p-3 hover:bg-primary-600 rounded-lg transition-colors"
+                    >
+                      <User className="h-5 w-5" />
+                      <span>Register</span>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <div className="p-3 text-sm text-gray-400">
+                      {profile.full_name || profile.email}
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        console.log('Sign out button clicked')
+                        e.preventDefault()
+                        e.stopPropagation()
+                        handleSignOut(e)
+                      }}
+                      className="flex items-center space-x-3 p-3 hover:bg-red-600 rounded-lg transition-colors w-full text-left text-red-400 hover:text-white border border-red-500"
+                      type="button"
+                      style={{ touchAction: 'manipulation', minHeight: '44px' }}
+                    >
+                      <LogOut className="h-5 w-5" />
+                      <span>Sign Out</span>
+                    </button>
+                    
+                    {/* Debug fallback button */}
+                    <button
+                      onClick={() => {
+                        console.log('Debug sign out clicked')
+                        window.location.href = '/'
+                      }}
+                      className="flex items-center space-x-3 p-3 bg-yellow-600 hover:bg-yellow-700 rounded-lg transition-colors w-full text-left text-white mt-2"
+                      type="button"
+                    >
+                      <LogOut className="h-5 w-5" />
+                      <span>Debug Sign Out</span>
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         )}
