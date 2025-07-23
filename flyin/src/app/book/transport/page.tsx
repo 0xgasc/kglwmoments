@@ -117,12 +117,13 @@ export default function BookTransportPage() {
     }
   }, [formData.fromLocation, formData.toLocation, formData.fromCustom, formData.toCustom, formData.passengers, formData.isRoundTrip, formData.date, formData.returnDate])
 
-  const price = calculatePrice()
+  const [price, setPrice] = useState(0)
 
   useEffect(() => {
-    // Only call calculatePrice on initial load and when dependencies actually change
-    calculatePrice()
-  }, [formData.fromLocation, formData.toLocation, formData.fromCustom, formData.toCustom, formData.passengers, formData.isRoundTrip, formData.date, formData.returnDate])
+    // Calculate price when dependencies change
+    const newPrice = calculatePrice()
+    setPrice(newPrice)
+  }, [calculatePrice])
 
   const getLocationName = (code: string, customValue?: string) => {
     if (code === 'custom' && customValue) {
@@ -169,7 +170,7 @@ export default function BookTransportPage() {
           is_round_trip: formData.isRoundTrip,
           passenger_count: formData.passengers,
           notes: formData.notes,
-          total_price: calculatePrice(),
+          total_price: price,
         })
         .select()
 
@@ -177,7 +178,7 @@ export default function BookTransportPage() {
 
       // Redirect to passenger details page with booking info
       const booking = data[0]
-      const passengerDetailsUrl = `/book/passenger-details?booking_id=${booking.id}&passengers=${formData.passengers}&total_price=${calculatePrice()}&from=${encodeURIComponent(fromLoc)}&to=${encodeURIComponent(toLoc)}&date=${formData.date}&time=${formData.time}`
+      const passengerDetailsUrl = `/book/passenger-details?booking_id=${booking.id}&passengers=${formData.passengers}&total_price=${price}&from=${encodeURIComponent(fromLoc)}&to=${encodeURIComponent(toLoc)}&date=${formData.date}&time=${formData.time}`
       
       setError('')
       router.push(passengerDetailsUrl)
@@ -485,7 +486,7 @@ export default function BookTransportPage() {
                 </span>
               </div>
               <span className="text-3xl font-bold text-primary-900">
-                ${calculatePrice()}
+                ${price}
               </span>
             </div>
             
