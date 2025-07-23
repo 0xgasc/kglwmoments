@@ -5,14 +5,11 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { Plane, Mail, Lock } from 'lucide-react'
-import { useTranslation } from '@/lib/i18n'
-import { LanguageSwitcher } from '@/components/language-switcher'
 
 function LoginContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirect = searchParams.get('redirect') || '/dashboard'
-  const { t } = useTranslation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -89,11 +86,8 @@ function LoginContent() {
             <Plane className="h-10 w-10 text-luxury-gold" />
             <span className="text-3xl font-bold">FlyInGuate</span>
           </Link>
-          <div className="mb-4">
-            <LanguageSwitcher />
-          </div>
-          <h1 className="text-2xl font-semibold text-gray-900">{t('auth.welcome_back')}</h1>
-          <p className="text-gray-600 mt-2">{t('auth.sign_in_subtitle')}</p>
+          <h1 className="text-2xl font-semibold text-gray-900">Welcome Back</h1>
+          <p className="text-gray-600 mt-2">Sign in to your account</p>
         </div>
 
         <div className="card-luxury">
@@ -106,7 +100,7 @@ function LoginContent() {
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                {t('auth.email')}
+                Email Address
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -124,7 +118,7 @@ function LoginContent() {
 
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-                {t('auth.password')}
+                Password
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -145,15 +139,15 @@ function LoginContent() {
               disabled={loading}
               className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? t('auth.signing_in') : t('auth.sign_in')}
+              {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              {t('auth.no_account')}{' '}
+              Don't have an account?{' '}
               <Link href="/register" className="text-primary-600 hover:text-primary-700 font-medium">
-                {t('auth.sign_up')}
+                Sign up
               </Link>
             </p>
           </div>
