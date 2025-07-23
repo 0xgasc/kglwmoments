@@ -80,7 +80,7 @@ export default function BookExperiencesPage() {
           category_name_es: exp.category || 'Tours Panorámicos'
         }))
         setExperiences(mappedData)
-        const uniqueCategories = [...new Set(mappedData.map((exp: any) => exp.category).filter(Boolean))]
+        const uniqueCategories = Array.from(new Set(mappedData.map((exp: any) => exp.category).filter(Boolean)))
         setCategories(uniqueCategories)
       } else {
         console.log('No experiences found or error:', error)
