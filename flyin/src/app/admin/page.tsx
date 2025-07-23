@@ -7,7 +7,8 @@ import { useAuthStore } from '@/lib/auth-store'
 import { supabase } from '@/lib/supabase'
 import { 
   Plane, Calendar, MapPin, Clock, Users, CheckCircle, 
-  AlertCircle, XCircle, DollarSign, BarChart3, UserCheck 
+  AlertCircle, XCircle, DollarSign, BarChart3, UserCheck,
+  Plus 
 } from 'lucide-react'
 import { HELICOPTER_FLEET } from '@/types/helicopters'
 import { format } from 'date-fns'
