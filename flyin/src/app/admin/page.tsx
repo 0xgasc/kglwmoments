@@ -1415,8 +1415,8 @@ export default function AdminDashboard() {
               <div className="space-y-4">
                 {transactions.map((transaction) => (
                   <div key={transaction.id} className="card-luxury border-l-4 border-l-yellow-400">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+                      <div className="flex-1 min-w-0">
                         <div className="flex items-center space-x-4 mb-3">
                           <h3 className="text-xl font-bold text-gray-900">
                             ${transaction.amount} Top-up Request
@@ -1486,12 +1486,12 @@ export default function AdminDashboard() {
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="ml-6 space-y-2">
+                      <div className="ml-0 sm:ml-6 mt-4 sm:mt-0 space-y-2 min-w-[200px]">
                         {transaction.status === 'pending' && (
                           <>
                             <button
                               onClick={() => updateTransactionStatus(transaction.id, 'approved')}
-                              className="block w-full px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors"
+                              className="block w-full px-4 py-3 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors min-h-[44px]"
                             >
                               ✅ Approve & Fund Account
                             </button>
@@ -1502,7 +1502,7 @@ export default function AdminDashboard() {
                                   updateTransactionStatus(transaction.id, 'rejected', notes)
                                 }
                               }}
-                              className="block w-full px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors"
+                              className="block w-full px-4 py-3 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition-colors min-h-[44px]"
                             >
                               ❌ Reject Request
                             </button>

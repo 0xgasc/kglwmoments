@@ -88,6 +88,44 @@ export const t = (key: string, locale: 'en' | 'es' = 'en'): string => {
     'pricing.route': { en: 'Route', es: 'Ruta' },
     'pricing.select_destinations': { en: 'Select departure and destination to see pricing', es: 'Selecciona origen y destino para ver precios' },
 
+    // Authentication
+    'auth.welcome_back': { en: 'Welcome Back', es: 'Bienvenido de Vuelta' },
+    'auth.sign_in_subtitle': { en: 'Sign in to your account', es: 'Inicia sesión en tu cuenta' },
+    'auth.email': { en: 'Email Address', es: 'Correo Electrónico' },
+    'auth.password': { en: 'Password', es: 'Contraseña' },
+    'auth.signing_in': { en: 'Signing in...', es: 'Iniciando sesión...' },
+    'auth.sign_in': { en: 'Sign In', es: 'Iniciar Sesión' },
+    'auth.no_account': { en: "Don't have an account?", es: '¿No tienes una cuenta?' },
+    'auth.sign_up': { en: 'Sign up', es: 'Registrarse' },
+    'auth.create_account': { en: 'Create Account', es: 'Crear Cuenta' },
+    'auth.join_today': { en: 'Join FlyInGuate today', es: 'Únete a FlyInGuate hoy' },
+    'auth.account_type': { en: 'Account Type', es: 'Tipo de Cuenta' },
+    'auth.client': { en: 'Client', es: 'Cliente' },
+    'auth.book_flights': { en: 'Book flights', es: 'Reservar vuelos' },
+    'auth.pilot': { en: 'Pilot', es: 'Piloto' },
+    'auth.provide_services': { en: 'Provide services', es: 'Proveer servicios' },
+    'auth.full_name': { en: 'Full Name', es: 'Nombre Completo' },
+    'auth.phone': { en: 'Phone Number', es: 'Número de Teléfono' },
+    'auth.creating_account': { en: 'Creating account...', es: 'Creando cuenta...' },
+    'auth.have_account': { en: 'Already have an account?', es: '¿Ya tienes una cuenta?' },
+
+    // Dashboard
+    'dashboard.my_bookings': { en: 'My Bookings', es: 'Mis Reservas' },
+    'dashboard.book_transport': { en: 'Book Transport', es: 'Reservar Transporte' },
+    'dashboard.book_experience': { en: 'Book Experience', es: 'Reservar Experiencia' },
+    'dashboard.no_bookings': { en: 'No bookings yet', es: 'Aún no hay reservas' },
+    'dashboard.start_journey': { en: 'Start your journey by booking a flight or experience', es: 'Comienza tu viaje reservando un vuelo o experiencia' },
+    'dashboard.my_profile': { en: 'My Profile', es: 'Mi Perfil' },
+    'dashboard.sign_out': { en: 'Sign Out', es: 'Cerrar Sesión' },
+    
+    // Booking status
+    'status.pending': { en: 'Pending', es: 'Pendiente' },
+    'status.approved': { en: 'Approved', es: 'Aprobado' },
+    'status.assigned': { en: 'Assigned', es: 'Asignado' },
+    'status.confirmed': { en: 'Confirmed', es: 'Confirmado' },
+    'status.completed': { en: 'Completed', es: 'Completado' },
+    'status.cancelled': { en: 'Cancelled', es: 'Cancelado' },
+
     // Common
     'common.minutes': { en: 'minutes', es: 'minutos' },
     'common.hours': { en: 'hours', es: 'horas' },
@@ -98,6 +136,8 @@ export const t = (key: string, locale: 'en' | 'es' = 'en'): string => {
     'common.book_now': { en: 'Book Now', es: 'Reservar Ahora' },
     'common.welcome': { en: 'Welcome', es: 'Bienvenido' },
     'common.max': { en: 'Max', es: 'Máx' },
+    'common.cancel': { en: 'Cancel', es: 'Cancelar' },
+    'common.confirm': { en: 'Confirm', es: 'Confirmar' },
     
     // Pilot recruitment
     'pilot.title': { en: 'Fly with FlyInGuate', es: 'Vuela con FlyInGuate' },

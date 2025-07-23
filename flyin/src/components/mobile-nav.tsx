@@ -26,8 +26,15 @@ export function MobileNav({ title = 'FlyInGuate', showBackButton = false, custom
   const router = useRouter()
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
-    router.push('/')
+    try {
+      await supabase.auth.signOut()
+      // Force page reload to ensure auth state is cleared
+      window.location.href = '/'
+    } catch (error) {
+      console.error('Sign out error:', error)
+      // Fallback: still redirect even if signOut fails
+      window.location.href = '/'
+    }
     setIsOpen(false)
   }
 
@@ -161,7 +168,7 @@ export function MobileNav({ title = 'FlyInGuate', showBackButton = false, custom
                   </div>
                   <button
                     onClick={handleSignOut}
-                    className="flex items-center space-x-3 p-3 hover:bg-gray-800 rounded-lg transition-colors w-full text-left"
+                    className="flex items-center space-x-3 p-3 hover:bg-red-600 rounded-lg transition-colors w-full text-left text-red-400 hover:text-white"
                   >
                     <LogOut className="h-5 w-5" />
                     <span>Sign Out</span>
