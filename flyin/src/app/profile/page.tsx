@@ -141,7 +141,7 @@ export default function ProfilePage() {
         if (uploadError) {
           console.error('Upload error:', uploadError)
           // Check if it's a bucket not found error
-          if (uploadError.message?.includes('bucket') || uploadError.statusCode === '404') {
+          if (uploadError.message?.includes('bucket') || uploadError.message?.includes('404')) {
             throw new Error('Payment proof storage is not configured. Please contact support.')
           }
           throw new Error('Failed to upload payment proof. Please try again.')
