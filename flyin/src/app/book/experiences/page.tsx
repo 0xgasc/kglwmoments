@@ -352,9 +352,20 @@ export default function BookExperiencesPage() {
           </Link>
           <div className="flex items-center space-x-6">
             <LanguageSwitcher />
-            <div className="text-sm">
-              {t('common.welcome')}, {profile?.full_name || profile?.email}
-            </div>
+            {profile ? (
+              <div className="text-sm">
+                {t('common.welcome')}, {profile?.full_name || profile?.email}
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link href="/login" className="text-sm hover:text-luxury-gold">
+                  {t('nav.login')}
+                </Link>
+                <Link href="/register" className="text-sm bg-primary-600 hover:bg-primary-700 px-3 py-1 rounded">
+                  {t('nav.register')}
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </nav>

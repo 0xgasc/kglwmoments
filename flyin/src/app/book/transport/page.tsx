@@ -198,11 +198,22 @@ export default function BookTransportPage() {
         title={t('services.transport.cta')}
         showBackButton={true}
         customActions={
-          profile && (
-            <div className="text-xs sm:text-sm text-gray-300 hidden sm:block">
-              Welcome, {profile?.full_name || profile?.email}
-            </div>
-          )
+          <div className="hidden md:flex items-center space-x-4">
+            {profile ? (
+              <div className="text-xs sm:text-sm text-gray-300">
+                {t('common.welcome')}, {profile?.full_name || profile?.email}
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link href="/login" className="text-sm text-gray-300 hover:text-white">
+                  {t('nav.login')}
+                </Link>
+                <Link href="/register" className="text-sm bg-primary-600 hover:bg-primary-700 px-3 py-1 rounded">
+                  {t('nav.register')}
+                </Link>
+              </div>
+            )}
+          </div>
         }
       />
 
