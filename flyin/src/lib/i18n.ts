@@ -92,6 +92,10 @@ export const t = (key: string, locale: 'en' | 'es' = 'en'): string => {
     'booking.form.custom_location': { en: 'Custom Location', es: 'Ubicación Personalizada' },
     'booking.form.enter_custom': { en: 'Enter custom location...', es: 'Ingresa ubicación personalizada...' },
     'booking.form.booking': { en: 'Booking...', es: 'Reservando...' },
+    'booking.form.trip_type': { en: 'Trip Type:', es: 'Tipo de Viaje:' },
+    'booking.form.each_way': { en: '(each way)', es: '(cada trayecto)' },
+    'booking.form.one_way_price': { en: 'Base Price (One Way):', es: 'Precio Base (Solo Ida):' },
+    'booking.form.estimated_price': { en: 'Estimated Base Price:', es: 'Precio Base Estimado:' },
 
     // Pricing
     'pricing.distance': { en: 'Distance', es: 'Distancia' },

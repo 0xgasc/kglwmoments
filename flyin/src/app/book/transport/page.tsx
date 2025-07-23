@@ -219,7 +219,7 @@ export default function BookTransportPage() {
           <div className="card-luxury space-y-6">
             <h2 className="text-xl font-semibold flex items-center">
               <MapPin className="h-5 w-5 mr-2 text-primary-600" />
-              Route Details
+              {t('booking.form.route_details')}
             </h2>
 
             <div className="grid md:grid-cols-2 gap-6">
@@ -315,7 +315,7 @@ export default function BookTransportPage() {
             {/* Trip Type Toggle */}
             <div className="bg-gray-50 rounded-lg p-4">
               <div className="flex items-center space-x-4">
-                <span className="text-sm font-medium text-gray-700">Trip Type:</span>
+                <span className="text-sm font-medium text-gray-700">{t('booking.form.trip_type')}</span>
                 <label className="flex items-center">
                   <input
                     type="radio"
@@ -361,7 +361,7 @@ export default function BookTransportPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Departure Time
+                    {t('booking.form.departure_time')}
                   </label>
                   <input
                     type="time"
@@ -419,7 +419,7 @@ export default function BookTransportPage() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Return Time
+                      {t('booking.form.return_time')}
                     </label>
                     <input
                       type="time"
@@ -485,7 +485,7 @@ export default function BookTransportPage() {
               <div className="flex items-center">
                 <DollarSign className="h-6 w-6 text-primary-700 mr-2" />
                 <span className="text-xl font-semibold text-primary-900">
-                  Price Breakdown
+                  {t('booking.form.price_breakdown')}
                 </span>
               </div>
               <span className="text-3xl font-bold text-primary-900">
@@ -496,15 +496,15 @@ export default function BookTransportPage() {
             {priceBredown && (
               <div className="space-y-2 text-sm text-primary-800 mb-4">
                 <div className="flex justify-between">
-                  <span>Distance:</span>
-                  <span>{priceBredown.distance} km {priceBredown.isRoundTrip ? '(each way)' : ''}</span>
+                  <span>{t('pricing.distance')}:</span>
+                  <span>{priceBredown.distance} km {priceBredown.isRoundTrip ? t('booking.form.each_way') : ''}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Flight Time:</span>
-                  <span>{priceBredown.flightTime} minutes {priceBredown.isRoundTrip ? '(each way)' : ''}</span>
+                  <span>{t('pricing.flight_time')}:</span>
+                  <span>{priceBredown.flightTime} minutes {priceBredown.isRoundTrip ? t('booking.form.each_way') : ''}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>{priceBredown.isRoundTrip ? 'Base Price (One Way):' : 'Estimated Base Price:'}</span>
+                  <span>{priceBredown.isRoundTrip ? t('booking.form.one_way_price') : t('booking.form.estimated_price')}</span>
                   <span>${Math.round(priceBredown.basePrice / (priceBredown.multiplier || 1))}</span>
                 </div>
                 {priceBredown.isRoundTrip && (
