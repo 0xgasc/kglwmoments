@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthStore } from '@/lib/auth-store'
+import { useTranslation } from '@/lib/i18n'
 import { supabase } from '@/lib/supabase'
 import { 
   Plane, Calendar, MapPin, Clock, Users, CheckCircle, 
@@ -65,6 +66,7 @@ interface Pilot {
 export default function AdminDashboard() {
   const router = useRouter()
   const { profile } = useAuthStore()
+  const { t } = useTranslation()
   const [activeTab, setActiveTab] = useState<'bookings' | 'calendar' | 'users' | 'pilots' | 'transactions' | 'choppers' | 'analytics'>('bookings')
   const [bookings, setBookings] = useState<Booking[]>([])
   const [pilots, setPilots] = useState<Pilot[]>([])
@@ -883,7 +885,7 @@ export default function AdminDashboard() {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            📅 Bookings
+            📅 {t('admin.bookings')}
           </button>
           <button
             onClick={() => setActiveTab('calendar')}
@@ -893,7 +895,7 @@ export default function AdminDashboard() {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            🗓️ Flight Calendar
+            🗓️ {t('admin.flight_calendar')}
           </button>
           <button
             onClick={() => setActiveTab('users')}
@@ -903,7 +905,7 @@ export default function AdminDashboard() {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            👥 Users
+            👥 {t('admin.users')}
           </button>
           <button
             onClick={() => setActiveTab('pilots')}
@@ -913,7 +915,7 @@ export default function AdminDashboard() {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            🚁 Pilots
+            🚁 {t('admin.pilots')}
           </button>
           <button
             onClick={() => setActiveTab('transactions')}
@@ -923,7 +925,7 @@ export default function AdminDashboard() {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            💰 Top-up Approvals
+            💰 {t('admin.transactions')}
           </button>
           <button
             onClick={() => setActiveTab('choppers')}
@@ -933,7 +935,7 @@ export default function AdminDashboard() {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            🚁 Choppers
+            🚁 {t('admin.choppers')}
           </button>
           <button
             onClick={() => setActiveTab('analytics')}
@@ -943,14 +945,14 @@ export default function AdminDashboard() {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            📊 Analytics
+            📊 {t('admin.analytics')}
           </button>
         </div>
 
         {activeTab === 'bookings' && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h1 className="text-2xl font-bold text-gray-900">Manage Bookings</h1>
+              <h1 className="text-2xl font-bold text-gray-900">{t('admin.booking_management')}</h1>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
@@ -1270,7 +1272,7 @@ export default function AdminDashboard() {
         {activeTab === 'users' && (
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
+              <h1 className="text-2xl font-bold text-gray-900">{t('admin.user_management')}</h1>
               <div className="flex space-x-2">
                 <button
                   onClick={() => {
@@ -1570,7 +1572,7 @@ export default function AdminDashboard() {
 
         {activeTab === 'pilots' && (
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">Manage Pilots</h1>
+            <h1 className="text-2xl font-bold text-gray-900 mb-6">{t('admin.pilot_management')}</h1>
             {loading ? (
               <div className="text-center py-12">
                 <div className="animate-spin h-12 w-12 border-4 border-primary-600 border-t-transparent rounded-full mx-auto"></div>
