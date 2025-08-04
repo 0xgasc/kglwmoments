@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/kglwmoments/static/css/main.c264655d.css",
+    "main.js": "/kglwmoments/static/js/main.6d338984.js",
+    "index.html": "/kglwmoments/index.html",
+    "main.c264655d.css.map": "/kglwmoments/static/css/main.c264655d.css.map",
+    "main.6d338984.js.map": "/kglwmoments/static/js/main.6d338984.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c264655d.css",
+    "static/js/main.6d338984.js"
+  ]
+}
