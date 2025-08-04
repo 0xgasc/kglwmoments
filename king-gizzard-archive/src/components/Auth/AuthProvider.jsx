@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const API_BASE_URL = process.env.REACT_APP_API_URL || 
   (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:5050'  
-    : 'https://momentrepository-production.up.railway.app');
+    : 'https://kglwmoments-production.up.railway.app');
 
   
 // ADD THIS TEMPORARY DEBUG:
