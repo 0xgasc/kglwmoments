@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "umo-archive",
+  "name": "kglwmoments",
   "builds": [
     {
       "src": "package.json",
@@ -68,6 +68,10 @@
     {
       "source": "/api/(.*)",
       "destination": "https://momentrepository-production.up.railway.app/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "env": {
