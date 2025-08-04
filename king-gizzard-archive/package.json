@@ -2,6 +2,7 @@
   "name": "king-gizzard-archive",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://0xgasc.github.io/kglwmoments",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -33,7 +34,9 @@
     "deploy:netlify": "npm run build:mobile && netlify deploy --prod --dir=build",
     "lighthouse": "lhci autorun",
     "serve": "serve -s build -l 3000",
-    "vercel-build": "npm install && npm run build"
+    "vercel-build": "npm install && npm run build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -57,6 +60,7 @@
     "@lhci/cli": "^0.13.0",
     "autoprefixer": "^10.4.21",
     "bundlesize": "^0.18.1",
+    "gh-pages": "^6.3.0",
     "lighthouse": "^11.7.0",
     "postcss": "^8.5.6",
     "serve": "^14.2.1",
